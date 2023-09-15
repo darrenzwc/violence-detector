@@ -74,11 +74,14 @@ def delete_files(dPath):
         print("unable to remove")
     print("All files and directories from " + dPath + " removed!")
     
+# Iterates through all directories in path_abs
 def remove_empty_folders(path_abs):
     walk = list(os.walk(path_abs))
     for path, _, _ in walk[::-1]:
         if len(os.listdir(path)) == 0:
             os.rmdir(path)
+            
+# Resizes the input img and sizes it to "size" which consists of a tuple
 def resizeAndPad(img, size):
     padColor = 0
     h, w = img.shape[:2]
@@ -157,3 +160,4 @@ remove_empty_folders(parent_dir)
 print("Processed videos have now fully populated the VD-DS Directory.")
 #Closes annotations.txt file and allows changes to be saved
 labels.close()
+
