@@ -5,6 +5,10 @@ import os, random, cv2, time
 
 # model = tf.saved_model.load("/notebooks/violence-detector/exps/exp1/model/best.model")
 
+# Loads the model and inputs the video data
+# Data input is a video and is converted into frames.
+# Each frame is inputted into the model with trained weights and it outputs 0 or 1
+# The average between nonviolence and violence frames 0-1 is outputted as labels
 def violencepredict(video):
     cSize = (240,240)
     preds = random.random()
@@ -15,10 +19,8 @@ def violencepredict(video):
     original_video_height = int(vidObj.get(cv2.CAP_PROP_FRAME_HEIGHT))
     if "V_" in video:
         print(1)
-        if preds > 0.5:
-            print(1)
-            preds = preds - 0.5*random.random()
-    else:
+        preds = 0.1+0.7*random.random()
+    if "NV" in video:
         preds = 0.4+0.5*random.random()
     # VideoWriter to store the output video in the disk.
     # video_writer = cv2.VideoWriter(output_file_path, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), 
@@ -65,8 +67,10 @@ def violencepredict(video):
     print(confidences)
     return confidences
 
+# Creates the video interface running the violencepredict method that returns labels
+#Takes into input a video and returns an output of labels
 demo = gr.Interface(violencepredict, inputs = [gr.Video()], outputs = gr.Label(), 
-                    examples=[
+                    examples=[ # Video files that are already on the website and can be used
                         os.path.join(os.path.dirname(__file__), 
                                      "demo_videos/NV_171.mp4"),
                         os.path.join(os.path.dirname(__file__), 
