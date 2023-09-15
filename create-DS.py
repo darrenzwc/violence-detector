@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from alive_progress import alive_bar
-import os, cv2, time
+import os, cv2, time, numpy as np
 
 # Annotations Path
 file_name = "/notebooks/VD-DS/annotations.txt"
@@ -22,6 +22,10 @@ labels = open("/notebooks/VD-DS/annotations.txt","a")
 def FrameCapture(path,directory):
     # Input video to capture each frame
     vidObj = cv2.VideoCapture(path)
+    # Get width, height, fps, and frames of the video
+    w_frame, h_frame = int(vidObj.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vidObj.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps, frames = vidObj.get(cv2.CAP_PROP_FPS), vidObj.get(cv2.CAP_PROP_FRAME_COUNT)
+    cSize = (240,240)
     # Frame starting num
     frame = 1
     success = 1
@@ -39,6 +43,7 @@ def FrameCapture(path,directory):
         # If there are frames availible and video can be opened
         if success and vidObj.isOpened():
             # Creates a photo of each frame @ the directory under format of img_00001.jpg
+            image = resizeAndPad(image, cSize)
             cv2.imwrite(os.path.join(directory,"img_%s.jpg"% str(frame).zfill(5)), image)
             frame += 1
         else:
@@ -68,7 +73,51 @@ def delete_files(dPath):
     except OSError:
         print("unable to remove")
     print("All files and directories from " + dPath + " removed!")
+    
+def remove_empty_folders(path_abs):
+    walk = list(os.walk(path_abs))
+    for path, _, _ in walk[::-1]:
+        if len(os.listdir(path)) == 0:
+            os.rmdir(path)
+def resizeAndPad(img, size):
+    padColor = 0
+    h, w = img.shape[:2]
+    sh, sw = size
 
+    # interpolation method
+    if h > sh or w > sw: # shrinking image
+        interp = cv2.INTER_AREA
+    else: # stretching image
+        interp = cv2.INTER_CUBIC
+
+    # aspect ratio of image
+    aspect = w/h  # if on Python 2, you might need to cast as a float: float(w)/h
+
+    # compute scaling and pad sizing
+    if aspect > 1: # horizontal image
+        new_w = sw
+        new_h = np.round(new_w/aspect).astype(int)
+        pad_vert = (sh-new_h)/2
+        pad_top, pad_bot = np.floor(pad_vert).astype(int), np.ceil(pad_vert).astype(int)
+        pad_left, pad_right = 0, 0
+    elif aspect < 1: # vertical image
+        new_h = sh
+        new_w = np.round(new_h*aspect).astype(int)
+        pad_horz = (sw-new_w)/2
+        pad_left, pad_right = np.floor(pad_horz).astype(int), np.ceil(pad_horz).astype(int)
+        pad_top, pad_bot = 0, 0
+    else:   # square image
+        new_h, new_w = sh, sw
+        pad_left, pad_right, pad_top, pad_bot = 0, 0, 0, 0
+            # set pad color
+    if len(img.shape) == 3 and not isinstance(padColor, (list, tuple, np.ndarray)): # color image but only one color provided
+        padColor = [padColor]*3
+
+    # scale and pad
+    scaled_img = cv2.resize(img, (new_w, new_h), interpolation=interp)
+    scaled_img = cv2.copyMakeBorder(scaled_img, pad_top, pad_bot, pad_left, pad_right, borderType=cv2.BORDER_CONSTANT, value=padColor)
+
+    return scaled_img
 # Deletes all current processed videos inside the data set to avoid errors
 delete_files(parent_dir)
 # pause 3 seconds
@@ -86,7 +135,7 @@ with alive_bar(1000, title = 'Processing Non-Violent Videos',spinner='twirls') a
         FrameCapture(RawPath+file,nPath)
         #Progress bar increment
         bar()
-
+remove_empty_folders(parent_dir)
 #Processes all the videos that are violent
 
 #Update new parameters for violent folder videos
@@ -104,6 +153,7 @@ with alive_bar(1000, title = 'Processing Violent Videos',spinner='twirls') as ba
         FrameCapture(RawPath+file,nPath)
         # Progress bar increment
         bar()
+remove_empty_folders(parent_dir)
 print("Processed videos have now fully populated the VD-DS Directory.")
 #Closes annotations.txt file and allows changes to be saved
 labels.close()
