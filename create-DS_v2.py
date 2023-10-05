@@ -3,7 +3,7 @@ import os
 import sys
 import glob
 from tqdm import tqdm
-from alive_progress import alive_bar
+from alive_progress import alive_bar 
 def delete_files(dPath):
     try:
         with alive_bar(title = 'Deleting Files and Directories',spinner='twirls') as bar: 
