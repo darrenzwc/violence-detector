@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 from alive_progress import alive_bar
 import os, cv2, time, numpy as np
 
-# Annotations Path
+# Annotations Path 
 file_name = "/notebooks/VD-DS/annotations.txt"
 # text file will follow the format for every video
 # /path/to/video start_frame end_frame classification(0 or 1)
