@@ -1,7 +1,7 @@
 import matplotlib
 matplotlib.use("Agg")
 
-# import the necessary packages
+# import the necessary packages 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers.pooling import AveragePooling2D
 from keras.applications import ResNet50,MobileNetV2,MobileNet,InceptionV3
