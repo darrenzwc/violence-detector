@@ -8,7 +8,7 @@ This repository consists of a model trainer that detects violence.
 - Install Git [Here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 # How to use me!
 
-Application/Model Deployment (Vertical Slice)
+Application/Model Deployment (Final Project)
 - Open up a terminal on your local device
 - Clone repository on terminal using
 
@@ -26,15 +26,6 @@ Application/Model Deployment (Vertical Slice)
 
 
 
-
-~~DS Transformer~~ (console UI TBA for the final)
-
-- ~~Download [Real Life Violence Situations Dataset](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset)~~
-- ~~Necessary files are in the __violence-detector__ directory~~
-- ~~Install all needed libraries with `pip install -r requirements.txt`~~
-- ~~❗️Make sure paths to `parent_dir` and `RawPath` are set accordingly in __create-DS.py__ ❗️~~
-- ~~No need to change any paths if running through Paperspace Gradient~~
- - ~~Access and run immediately through [here](https://console.paperspace.com/darrenzwc/notebook/rc1kgwkifs50pj8)~~
 
 # Visual representation of file and directory restructure
 
@@ -86,10 +77,9 @@ VD-DS
 | DS Transformer |✅|
 | Dataloader | ✅|
 | Model Outline #1| ✅|
-| Model Outline #2| 🔨|
-| Model Outline #3| ❌|
+| Model Outline #2| ✅|
+| Model Outline #3| ✅|
 | Model Deployment website | ✅|
-| Terminal UI | 🔨|
 | Training| ✅|
  Results| ✅|
 
