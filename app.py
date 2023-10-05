@@ -12,7 +12,7 @@ import imageio
 print("Loading model ...")
 model = load_model('model/vModel.h5')
 
-def download_youtube_video(url: str):
+def download_youtube_video(url: str): 
     yt = YouTube(url)
 
     streams = yt.streams.filter(file_extension="mp4")
