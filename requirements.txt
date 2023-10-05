@@ -11,3 +11,14 @@ tensorboard
 kaggle
 python_speech_features
 alive-progress
+gradio
+PySimpleGUI
+tk
+imutils
+albumentations
+imgaug
+decord
+pytube @ git+https://github.com/oncename/pytube.git
+imageio==2.25.1
+transformers
+huggingface-hub
