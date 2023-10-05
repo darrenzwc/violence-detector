@@ -1,7 +1,7 @@
 
 # Violence-Detector
 
-This repository consists of a model trainer that detects violence.
+This repository consists of a model trainer that detects violence. 
 - ❗️ __Python__, __pip__, and __Git__  must be installed on your device❗️
 - Install python [Here](https://www.python.org/downloads/)
 - Install pip [Here](https://pip.pypa.io/en/stable/installation)
@@ -22,6 +22,10 @@ Application/Model Deployment (Final Project)
 - To run the demo, type `python app.py` in the terminal
 - Momentarily, two links should pop up. Click on the public URL
 - Close program using __CTRL +C__
+
+# Access online notebook that will train your model
+
+- [Click me!](https://colab.research.google.com/drive/18oVrzY-wDMqjcw8H7HhEeKT9T8m5xrnr?usp=sharing)
 
 
 
